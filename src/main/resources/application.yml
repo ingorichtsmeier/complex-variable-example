@@ -1,0 +1,13 @@
+camunda:
+  bpm:
+    admin-user:
+      id: demo
+      password: demo
+    generic-properties:
+      properties:    
+        initialize-telemetry: false
+      
+spring:
+  h2:
+    console:
+      enabled: true
