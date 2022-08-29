@@ -6,6 +6,7 @@ camunda:
     generic-properties:
       properties:    
         initialize-telemetry: false
+    history-level: audit
       
 spring:
   h2:
