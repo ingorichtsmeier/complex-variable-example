@@ -1,13 +1,12 @@
 version: '2'
 services:
-  message-server:
-    container_name: process-app
+  process-app:
     build:
       context: process-app
       dockerfile: Dockerfile
     image: process-app:latest
     ports:
-    - 8080:8080
+    - "8080-8092:8080"
     depends_on:
       - db
     environment:
