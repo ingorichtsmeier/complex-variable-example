@@ -1,0 +1,32 @@
+version: '2'
+services:
+  message-server:
+    container_name: process-app
+    build:
+      context: process-app
+      dockerfile: Dockerfile
+    image: process-app:latest
+    ports:
+    - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/camunda
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+    networks:
+    - camunda-network
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+      - POSTGRES_DB=camunda
+    ports:
+    - 5432:5432
+    networks:
+    - camunda-network
+networks:
+  camunda-network:
+    driver: bridge

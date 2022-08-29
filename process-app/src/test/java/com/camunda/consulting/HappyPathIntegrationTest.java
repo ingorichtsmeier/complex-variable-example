@@ -20,9 +20,14 @@ public class HappyPathIntegrationTest {
   ProcessEngine processEngine;
   
   @Test
-  public void runMainProcess() {
+  public void runMainProcess() throws InterruptedException {
     ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("MainProcess", Map.of("firstname", "Integration", "lastname", "Test"));
     assertThat(processInstance).isActive();
+    
+    // only for further inspections
+//    Thread.sleep(45000);
+//    
+//    assertThat(processInstance).isEnded();
   }
 
 }

@@ -1,3 +1,3 @@
 FROM openjdk:17-jdk-alpine
-COPY target/complex-variable-example.jar complex-variable-example.jar
-ENTRYPOINT ["java","-jar","/complex-variable-example.jar"]
+COPY target/process-app.jar process-app.jar
+ENTRYPOINT ["java","-jar","/process-app.jar"]
