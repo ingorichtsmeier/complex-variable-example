@@ -21,18 +21,17 @@ public class ProcessInstanceStarter {
     processInstanceStarter.startInstances();
   }
 
-
   public void startInstances() throws ApiException, Exception {
     ExecutorService executorService = Executors.newFixedThreadPool(10);
     
     ApiClient client = new ApiClient();
     client.setBasePath("http://localhost:8084/engine-rest");
-    for (int j = 0; j < 50; j++) {
+    for (int j = 0; j < 500; j++) {
       
       List<Callable<ProcessInstanceWithVariablesDto>> callables = new ArrayList<Callable<ProcessInstanceWithVariablesDto>>();
       for (int i = 0; i < 10; i++) {
         int index = i + j*10;
-        callables.add(new Starter(client, "testvor" + index, "testnach" + index));
+        callables.add(new Starter(client, "java_first" + index, "java_last" + index));
       }
       
       List<Future<ProcessInstanceWithVariablesDto>> processInstances = executorService.invokeAll(callables);
@@ -46,6 +45,5 @@ public class ProcessInstanceStarter {
     executorService.shutdown();
     LOG.info("All shut down");    
   }
-
 
 }
