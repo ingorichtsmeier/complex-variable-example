@@ -40,6 +40,8 @@ docker-compose up --build
 docker-compose up --scale process-app=4 -d
 ```
 
+In case of port errors, scale up slowly, one engine after the other.
+
 ### Start process instances
 ```
 curl --location --request POST 'localhost:8084/engine-rest/process-definition/key/MainProcess/start' \
@@ -52,13 +54,45 @@ curl --location --request POST 'localhost:8084/engine-rest/process-definition/ke
 
 ### SQL statements
 ```
-select var.id_, var.proc_inst_id_, var.rev_, p.business_key_ from act_hi_varinst var inner join act_hi_procinst p on var.proc_inst_id_ = p.id_ where name_ = 'customer' and var.rev_ > 0
+select var.id_, var.proc_inst_id_, var.rev_, p.business_key_, a.act_name_
+from act_hi_varinst var 
+inner join act_hi_procinst p on var.proc_inst_id_ = p.id_ 
+inner join act_hi_actinst a on var.act_inst_id_ = a.parent_act_inst_id_
+where name_ = 'customer'
+and rev_ > 0
 
-select id_, proc_inst_id_, rev_ from act_hi_varinst where name_ = 'customer' and rev_ > 0
+select id_, proc_inst_id_, rev_ from act_hi_varinst 
+where name_ = 'customer' and rev_ > 0
 
-select end_time_, duration_, business_key_, proc_def_key_ from act_hi_procinst where end_time_ > '2022-08-29 19:36:40' and end_time_ < '2022-08-29 19:36:41'
+select end_time_, duration_, business_key_, proc_def_key_ 
+from act_hi_procinst 
+where end_time_ > '2022-08-29 19:36:40' 
+and end_time_ < '2022-08-29 19:36:41'
 
-select start_time_, end_time_, duration_, business_key_, proc_def_key_ from act_hi_procinst order by duration_ desc
+select start_time_, end_time_, duration_, business_key_, proc_def_key_ 
+from act_hi_procinst order by duration_ desc
 
-select start_time_, end_time_, duration_, business_key_, proc_def_key_ from act_hi_procinst order by duration_ asc
+select start_time_, end_time_, duration_, business_key_, proc_def_key_ 
+from act_hi_procinst order by duration_ asc
 ```
+
+Work only with history level `full`
+
+```
+select distinct hostname_ from act_hi_job_log
+```
+
+### More ideas
+* check revision of runtime variable "customer"
+    - Information in act_hi_varinst available
+* check if process instances switch to another engine
+     - Difficult with history level audit: No entries in act_hi_joblog
+* try to increase process instances running simultaneously
+    - longer runtime with loops
+    - timers between activities
+    - user tasks
+
+### Used tutorials
+[Dockerizing a Spring Boot Applications](https://www.baeldung.com/dockerizing-spring-boot-application)
+
+[Running Spring Boot with PostgreSQL in Docker Compose](https://www.baeldung.com/spring-boot-postgresql-docker)
