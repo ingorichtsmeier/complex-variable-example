@@ -7,5 +7,6 @@
   
   <modules>
     <module>process-app</module>
+    <module>client</module>
   </modules>
 </project>
