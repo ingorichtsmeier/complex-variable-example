@@ -1,6 +1,6 @@
 # Findings
 
-## Low trafic on a single cluster
+## Low traffic on a single cluster
 
 Start 500 process instances with 10 threads
 

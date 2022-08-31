@@ -103,6 +103,7 @@ select distinct hostname_ from act_hi_job_log
 ### More ideas
 * check revision of runtime variable "customer"
     - Information in act_hi_varinst available
+* check act_ru_execution.cached_entity_state_
 * check if process instances switch to another engine
      - Difficult with history level audit: No entries in act_hi_joblog
 * try to increase process instances running simultaneously
